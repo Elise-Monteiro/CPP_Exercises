@@ -57,6 +57,10 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "codecvt": "cpp",
+        "set": "cpp",
+        "fstream": "cpp",
+        "iomanip": "cpp"
     }
 }
