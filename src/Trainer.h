@@ -3,6 +3,7 @@
 #include <array>
 #include "PC.h"
 #include "Pokeball.h"
+#include "Pokemon.h"
 
 using Equipe = std::array<Pokeball, 6>;
 
@@ -25,5 +26,17 @@ public:
     const Equipe &pokeballs() const
     {
         return _pokeballs;
+    }
+    void capture(PokemonPtr pokemonPtr)
+    {
+        for (auto &pokeball : _pokeballs)
+        {
+            if (pokeball.empty())
+            {
+                pokeball.store(std::move(pokemonPtr));
+                return;
+            }
+        }
+        _pc.transfer(std::move(pokemonPtr));
     }
 };
