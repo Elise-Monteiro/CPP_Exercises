@@ -21,4 +21,8 @@ public:
     {
         return *_pokemon;
     }
+    PokemonPtr steal()
+    {
+        return std::move(_pokemon);
+    }
 };

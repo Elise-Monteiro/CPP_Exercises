@@ -41,4 +41,13 @@ public:
         }
         _pc.transfer(std::move(pokemonPtr));
     }
+
+    void store_in_pc(const int index)
+    {
+        if (index < 0 || index > 5 || _pokeballs[index].empty())
+        {
+            return;
+        }
+        _pc.transfer(_pokeballs[index].steal());
+    }
 };
