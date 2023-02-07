@@ -14,4 +14,8 @@ public:
     {
         return _pokemons;
     }
+    void transfer(PokemonPtr pokemon)
+    {
+        _pokemons.emplace_back(std::move(pokemon));
+    }
 };
