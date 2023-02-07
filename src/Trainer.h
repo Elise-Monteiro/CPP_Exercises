@@ -4,6 +4,7 @@
 #include "PC.h"
 #include "Pokeball.h"
 #include "Pokemon.h"
+#include <memory>
 
 using Equipe = std::array<Pokeball, 6>;
 
@@ -29,6 +30,7 @@ public:
     }
     void capture(PokemonPtr pokemonPtr)
     {
+        pokemonPtr->set_trainer(*this);
         for (auto &pokeball : _pokeballs)
         {
             if (pokeball.empty())
