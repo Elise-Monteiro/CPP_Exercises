@@ -42,3 +42,5 @@ public:
         return *this;
     }
 };
+
+using PokemonPtr = std::unique_ptr<Pokemon>;
