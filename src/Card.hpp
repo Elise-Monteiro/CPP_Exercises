@@ -61,6 +61,11 @@ public:
         _description = description;
     }
 
+    const std::string &get_symbol() const
+    {
+        return _symbol;
+    }
+
     virtual ~Card() {}
 
 protected:
@@ -68,6 +73,7 @@ protected:
         : _id{id}, _type{type}, _name{name}, _description{description}
     {
     }
+    std::string _symbol;
 
 private:
     const std::string _id;

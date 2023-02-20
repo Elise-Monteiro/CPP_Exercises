@@ -46,6 +46,7 @@ public:
           _atk{atk},
           _def{def}
     {
+        _symbol = to_symbol(attribute);
     }
     const std::string get_description() const
     {
