@@ -47,6 +47,13 @@ public:
           _def{def}
     {
     }
+    const std::string get_description() const
+    {
+        return "[" + _monsterType + "]\n" +
+               Card::get_description() + "\n"
+                                         "ATK/" +
+               std::to_string(_atk) + " DEF/" + std::to_string(_def);
+    }
     Attribute get_attribute() const
     {
         return _attribute;

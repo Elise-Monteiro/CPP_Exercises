@@ -46,7 +46,7 @@ public:
         return _name;
     }
 
-    const std::string &get_description() const
+    const std::string get_description() const
     {
         return _description;
     }
