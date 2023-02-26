@@ -1,22 +1,21 @@
 #pragma once
 #include "Node.hpp"
-#include <vector>
+
 #include <string>
+#include <vector>
 
 class ArrayNode : public Node
 {
-    public:
-        ArrayNode() {
-            _type = NodeKind::ARRAY;
-        }
+public:
+    ArrayNode() { _type = NodeKind::ARRAY; }
 
-        virtual std::string print() const override{//non complete
-            std::string str = "[";
-            return str + "]";
-        }
-        NodePtr make_ptr() {
-        return std::make_unique<ArrayNode>();
+    virtual std::string print() const override
+    { // non complete
+        std::string str = "[";
+        return str + "]";
     }
-    private:
-        std::vector<Node> _array;
+    static std::unique_ptr<ArrayNode> make_ptr() { return std::make_unique<ArrayNode>(); }
+
+private:
+    std::vector<Node> _array;
 };
