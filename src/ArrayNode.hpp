@@ -12,10 +12,22 @@ public:
     virtual std::string print() const override
     { // non complete
         std::string str = "[";
+        for (unsigned i = 0; i < _array.size(); i++)
+        {
+            if (i != 0)
+            {
+                str += ",";
+            }
+            str += _array[i]->print();
+        }
         return str + "]";
     }
     static std::unique_ptr<ArrayNode> make_ptr() { return std::make_unique<ArrayNode>(); }
 
+    int child_count() const { return _array.size(); }
+
+    void push_back(NodePtr nodePtr) { _array.push_back(std::move(nodePtr)); }
+
 private:
-    std::vector<Node> _array;
+    std::vector<NodePtr> _array;
 };
