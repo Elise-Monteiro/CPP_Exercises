@@ -12,13 +12,26 @@ public:
     virtual std::string print() const override
     { // non complete
         std::string str = "[";
-        for (unsigned i = 0; i < _array.size(); i++)
+        /*for (unsigned i = 0; i < _array.size(); i++)
         {
             if (i != 0)
             {
                 str += ",";
             }
             str += _array[i]->print();
+        }*/
+        bool first = true;
+        for (auto const& value : _array)
+        {
+            if (first)
+            {
+                first = false;
+            }
+            else
+            {
+                str += ",";
+            }
+            str += value->print();
         }
         return str + "]";
     }
