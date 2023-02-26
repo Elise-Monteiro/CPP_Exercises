@@ -30,7 +30,33 @@ public:
     }
     static std::unique_ptr<ObjectNode> make_ptr() { return std::make_unique<ObjectNode>(); }
     int                                child_count() const { return _map.size(); }
-    void insert(std::string key, NodePtr value) { _map.emplace(key, std::move(value)); }
+    void   insert(std::string key, NodePtr value) { _map.emplace(key, std::move(value)); }
+    size_t height() const override
+    {
+        if (_map.size() == 0)
+        {
+            return 0u;
+        }
+        size_t res = 0u;
+        for (auto const& set : _map)
+        {
+            size_t tmp = set.second->height();
+            if (tmp > res)
+            {
+                res = tmp;
+            }
+        }
+        return res + 1u;
+    }
+    size_t node_count() const override
+    {
+        size_t res = 1u;
+        for (auto const& set : _map)
+        {
+            res += set.second->node_count();
+        }
+        return res;
+    }
 
 private:
     std::map<std::string, NodePtr> _map;
