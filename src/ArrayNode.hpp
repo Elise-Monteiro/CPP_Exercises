@@ -67,6 +67,8 @@ public:
         }
         return res;
     }
+    std::vector<NodePtr>::iterator begin() { return _array.begin(); }
+    std::vector<NodePtr>::iterator end() { return _array.end(); }
 
 private:
     std::vector<NodePtr> _array;
