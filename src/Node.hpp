@@ -21,11 +21,7 @@ public:
     virtual ~Node()                   = default;
     virtual size_t height() const     = 0;
     virtual size_t node_count() const = 0;
-    /*virtual std::unique_ptr<IntLeaf>    as_IntLeaf() { return nullptr; }
-    virtual std::unique_ptr<StringLeaf> as_StringLeaf() { return nullptr; }
-    virtual std::unique_ptr<ArrayNode>  as_ArrayNode() { return nullptr; }
-    virtual std::unique_ptr<ObjectNode> as_ObjectNode() { return nullptr; }*/
-    /* Added for tests 30 to 33 */
+
     IntLeaf*    as_IntLeaf();
     StringLeaf* as_StringLeaf();
     ArrayNode*  as_ArrayNode();
