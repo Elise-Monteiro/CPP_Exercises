@@ -9,16 +9,14 @@ TEST_CASE("One may test the existence of a key child in an ObjectNode with Objec
 {
     auto node_ptr = JsonParser::parse_from_file(json_dir + "pokedex.json");
     auto objectnode_ptr = node_ptr->as_ObjectNode();
-    std::cout << objectnode_ptr->print() << std::endl;
-    /*REQUIRE(objectnode_ptr->has_child("pokemon") == true);
-    REQUIRE(objectnode_ptr->has_child("digimon") == false);*/
+    REQUIRE(objectnode_ptr->has_child("pokemon") == true);
+    REQUIRE(objectnode_ptr->has_child("digimon") == false);
 }
 
 TEST_CASE("One may advance to the child associated with a key in an Object Node with ObjectNode::at")
 {
     auto node_ptr = JsonParser::parse_from_file(json_dir + "pokedex.json");
     auto objectnode_ptr = node_ptr->as_ObjectNode();
-    std::cout << objectnode_ptr->print() << std::endl;
     auto pokemons_ptr = objectnode_ptr->at("pokemon");
     REQUIRE(pokemons_ptr != nullptr);
     REQUIRE(pokemons_ptr != objectnode_ptr);
@@ -30,9 +28,9 @@ TEST_CASE("One may advance to the child associated with a key in an Object Node 
 
 TEST_CASE("If there is no child with given key ObjectNode::at returns a null pointer")
 {
-    /*auto node_ptr = JsonParser::parse_from_file(json_dir + "pokedex.json");
+    auto node_ptr = JsonParser::parse_from_file(json_dir + "pokedex.json");
     auto objectnode_ptr = node_ptr->as_ObjectNode();
-    REQUIRE(objectnode_ptr->at("digimon") == nullptr);*/
+    REQUIRE(objectnode_ptr->at("digimon") == nullptr);
 }
 
 #include "routine_memory_check.cpp"
