@@ -70,6 +70,9 @@ public:
     std::vector<NodePtr>::iterator begin() { return _array.begin(); }
     std::vector<NodePtr>::iterator end() { return _array.end(); }
 
+    std::vector<NodePtr>::const_iterator begin() const { return _array.begin(); }
+    std::vector<NodePtr>::const_iterator end() const { return _array.end(); }
+
 private:
     std::vector<NodePtr> _array;
 };

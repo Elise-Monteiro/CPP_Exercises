@@ -27,6 +27,11 @@ public:
     ArrayNode*  as_ArrayNode();
     ObjectNode* as_ObjectNode();
 
+    const IntLeaf*    as_IntLeaf() const;
+    const StringLeaf* as_StringLeaf() const;
+    const ArrayNode*  as_ArrayNode() const;
+    const ObjectNode* as_ObjectNode() const;
+
 protected:
     NodeKind _type;
 };

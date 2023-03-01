@@ -21,3 +21,20 @@ ObjectNode* Node::as_ObjectNode()
 {
     return dynamic_cast<ObjectNode*>(this);
 }
+
+const IntLeaf* Node::as_IntLeaf() const
+{
+    return dynamic_cast<const IntLeaf*>(this);
+}
+const StringLeaf* Node::as_StringLeaf() const
+{
+    return dynamic_cast<const StringLeaf*>(this);
+}
+const ArrayNode* Node::as_ArrayNode() const
+{
+    return dynamic_cast<const ArrayNode*>(this);
+}
+const ObjectNode* Node::as_ObjectNode() const
+{
+    return dynamic_cast<const ObjectNode*>(this);
+}
