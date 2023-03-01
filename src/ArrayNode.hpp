@@ -68,6 +68,11 @@ public:
         return res;
     }
 
+    std::unique_ptr<IntLeaf>    as_IntLeaf() override { return nullptr; }
+    std::unique_ptr<StringLeaf> as_StringLeaf() override { return nullptr; }
+    std::unique_ptr<ArrayNode>  as_ArrayNode() override { return nullptr; }
+    std::unique_ptr<ObjectNode> as_ObjectNode() override { return nullptr; }
+
 private:
     std::vector<NodePtr> _array;
 };

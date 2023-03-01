@@ -101,8 +101,8 @@ std::unique_ptr<Node> JsonParser::parse_constant(std::string_view target)
         if (c[x] != target[x])
         {
             c[x + 1] = '\0';
-            /*std::cerr << "Expecting JSON value (probably constant " << target << ") at position "
-                      << (_in.tellg() - (long)x) << ". Got string starting with " << c << std::endl;*/
+            std::cerr << "Expecting JSON value (probably constant " << target << ") at position "
+                      << (_in.tellg() - (long)x) << ". Got string starting with " << c << std::endl;
             return nullptr;
         }
     }
