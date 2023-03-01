@@ -58,8 +58,8 @@ public:
         return res;
     }
 
-    bool    has_child(const std::string& key) const { return _map.count(key) != 0; }
-    NodePtr at(const std::string& key) { return _map.count(key) == 0 ? nullptr : std::move(_map[key]); }
+    bool  has_child(const std::string& key) const { return _map.count(key) != 0; }
+    Node* at(const std::string& key) const { return has_child(key) ? _map.at(key).get() : nullptr; }
 
 private:
     std::map<std::string, NodePtr> _map;
