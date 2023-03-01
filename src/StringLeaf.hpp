@@ -18,10 +18,10 @@ public:
     {
         return std::make_unique<StringLeaf>(string);
     }
-    std::unique_ptr<IntLeaf>    as_IntLeaf() override { return nullptr; }
+    /*std::unique_ptr<IntLeaf>    as_IntLeaf() override { return nullptr; }
     std::unique_ptr<StringLeaf> as_StringLeaf() override { return std::make_unique<StringLeaf>(_string); }
     std::unique_ptr<ArrayNode>  as_ArrayNode() override { return nullptr; }
-    std::unique_ptr<ObjectNode> as_ObjectNode() override { return nullptr; }
+    std::unique_ptr<ObjectNode> as_ObjectNode() override { return nullptr; }*/
 
 private:
     const std::string _string;
