@@ -12,4 +12,7 @@ class ObjectNode : public Node
         virtual std::string print() const override{
             return "{}";
         }
+        NodePtr make_ptr() {
+        return std::make_unique<ObjectNode>();
+    }
 };

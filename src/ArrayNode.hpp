@@ -14,6 +14,9 @@ class ArrayNode : public Node
             std::string str = "[";
             return str + "]";
         }
+        NodePtr make_ptr() {
+        return std::make_unique<ArrayNode>();
+    }
     private:
         std::vector<Node> _array;
 };
