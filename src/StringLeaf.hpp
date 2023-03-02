@@ -21,6 +21,8 @@ public:
 
     bool operator==(const Node& other) const override;
 
+    NodePtr deep_copy() const override { return make_ptr(_string); }
+
 private:
     const std::string _string;
 };

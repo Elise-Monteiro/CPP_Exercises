@@ -73,7 +73,16 @@ public:
     std::vector<NodePtr>::const_iterator begin() const { return _array.begin(); }
     std::vector<NodePtr>::const_iterator end() const { return _array.end(); }
 
-    bool operator==(const Node& other) const override;
+    bool    operator==(const Node& other) const override;
+    NodePtr deep_copy() const override
+    {
+        auto res = make_ptr();
+        for (auto const& element : _array)
+        {
+            res->push_back(element->deep_copy());
+        }
+        return res;
+    }
 
 private:
     std::vector<NodePtr> _array;

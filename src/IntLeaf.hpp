@@ -19,6 +19,8 @@ public:
 
     bool operator==(const Node& other) const override;
 
+    NodePtr deep_copy() const override { return make_ptr(_num); }
+
 private:
     const int _num;
 };

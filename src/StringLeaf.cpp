@@ -4,7 +4,7 @@
 
 bool StringLeaf::operator==(const Node& other) const
 {
-    std::cout << "String Node" << std::endl;
+    // std::cout << "String Node" << std::endl;
     if (_type != other.kind())
     {
         return false;

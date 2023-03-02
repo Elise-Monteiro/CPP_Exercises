@@ -2,11 +2,11 @@
 
 #include "Node.hpp"
 
-#include <iostream>
+// #include <iostream>
 
 bool IntLeaf::operator==(const Node& other) const
 {
-    std::cout << "Int Node" << std::endl;
+    // std::cout << "Int Node" << std::endl;
     if (_type != other.kind())
     {
         return false;

@@ -63,6 +63,16 @@ public:
 
     bool operator==(const Node& other) const override;
 
+    NodePtr deep_copy() const override
+    {
+        auto res = make_ptr();
+        for (auto const& set : _map)
+        {
+            res->insert(set.first, set.second->deep_copy());
+        }
+        return res;
+    }
+
 private:
     std::map<std::string, NodePtr> _map;
 };
