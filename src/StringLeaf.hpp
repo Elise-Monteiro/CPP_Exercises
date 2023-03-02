@@ -19,6 +19,8 @@ public:
         return std::make_unique<StringLeaf>(string);
     }
 
+    bool operator==(const Node& other) const override;
+
 private:
     const std::string _string;
 };

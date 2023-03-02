@@ -61,6 +61,8 @@ public:
     bool  has_child(const std::string& key) const { return _map.count(key) != 0; }
     Node* at(const std::string& key) const { return has_child(key) ? _map.at(key).get() : nullptr; }
 
+    bool operator==(const Node& other) const override;
+
 private:
     std::map<std::string, NodePtr> _map;
 };

@@ -17,6 +17,8 @@ public:
     int                             data() const { return _num; }
     static std::unique_ptr<IntLeaf> make_ptr(const int num) { return std::make_unique<IntLeaf>(num); }
 
+    bool operator==(const Node& other) const override;
+
 private:
     const int _num;
 };

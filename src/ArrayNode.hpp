@@ -73,6 +73,8 @@ public:
     std::vector<NodePtr>::const_iterator begin() const { return _array.begin(); }
     std::vector<NodePtr>::const_iterator end() const { return _array.end(); }
 
+    bool operator==(const Node& other) const override;
+
 private:
     std::vector<NodePtr> _array;
 };

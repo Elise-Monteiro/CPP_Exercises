@@ -5,6 +5,8 @@
 #include "ObjectNode.hpp"
 #include "StringLeaf.hpp"
 
+#include <iostream>
+
 IntLeaf* Node::as_IntLeaf()
 {
     return dynamic_cast<IntLeaf*>(this);
@@ -37,4 +39,21 @@ const ArrayNode* Node::as_ArrayNode() const
 const ObjectNode* Node::as_ObjectNode() const
 {
     return dynamic_cast<const ObjectNode*>(this);
+}
+
+bool Node::operator==(const Node& other) const
+{
+    std::cout << "Node" << std::endl;
+    switch (kind())
+    {
+    case NodeKind::INT:
+        return *(this->as_IntLeaf()) == other;
+    case NodeKind::STRING:
+        return *(this->as_StringLeaf()) == other;
+    case NodeKind::OBJECT:
+        return *(this->as_ObjectNode()) == other;
+    case NodeKind::ARRAY:
+        return *(this->as_ArrayNode()) == other;
+    }
+    return false;
 }

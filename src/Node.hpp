@@ -32,6 +32,8 @@ public:
     const ArrayNode*  as_ArrayNode() const;
     const ObjectNode* as_ObjectNode() const;
 
+    virtual bool operator==(const Node& other) const = 0;
+
 protected:
     NodeKind _type;
 };
