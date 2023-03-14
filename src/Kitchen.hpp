@@ -4,11 +4,13 @@
 #include <string>
 #include <set>
 #include <vector>
+#include <memory>
 #include <utility>
 
 class Kitchen
 {
 public:
+/*
     const Unit& register_unit(Unit unit)
     {
         auto [it, emplaced] = _units.emplace(std::move(unit));
@@ -18,26 +20,27 @@ public:
 {
     const auto it = _units.find(Unit { name });
     return it != _units.end() ? &(*it) : nullptr;
-}
-    /*const Unit& register_unit(const Unit& unit)
+}*/
+
+    const Unit& register_unit(const Unit& unit)
     {
-        _units.emplace_back(std::move(unit));
-        return *(_units.rbegin());
-    }*/
-    /*
+        _units.emplace_back(std::make_unique<Unit>(unit));
+        return *(_units.back());
+    }
     const Unit* find_unit(const std::string& name) const
     {
         for (const auto& e : _units)
         {
-            if (name == e.name)
+            if (name == (*e).name)
             {
-                return &e;
+                return &(*e);
             }
         }
         return nullptr;
-    }*/
+    }
 
 private:
+/*
  struct ElementNameComparer
     {
         bool compare_insensitive(const std::string& s1, const std::string& s2) const
@@ -50,9 +53,6 @@ private:
         bool operator()(const std::string& name, const Unit& unit) const { return name < unit.name; }
 
     };
-    /*bool compare_unit(const Unit& unit1, const Unit& unit2)const {
-        return unit1.name.compare(unit2.name);
-    }*/
-    std::set<Unit, ElementNameComparer> _units;
-    /*std::vector<Unit> _units;*/
+    std::set<Unit, ElementNameComparer> _units;*/
+    std::vector<std::unique_ptr<Unit>> _units;
 };
