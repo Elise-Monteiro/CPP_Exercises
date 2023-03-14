@@ -21,15 +21,19 @@ public:
     virtual ~Node()                   = default;
     virtual size_t height() const     = 0;
     virtual size_t node_count() const = 0;
-    /*virtual std::unique_ptr<IntLeaf>    as_IntLeaf() { return nullptr; }
-    virtual std::unique_ptr<StringLeaf> as_StringLeaf() { return nullptr; }
-    virtual std::unique_ptr<ArrayNode>  as_ArrayNode() { return nullptr; }
-    virtual std::unique_ptr<ObjectNode> as_ObjectNode() { return nullptr; }*/
-    /* Added for tests 30 to 33 */
+
     IntLeaf*    as_IntLeaf();
     StringLeaf* as_StringLeaf();
     ArrayNode*  as_ArrayNode();
     ObjectNode* as_ObjectNode();
+
+    const IntLeaf*    as_IntLeaf() const;
+    const StringLeaf* as_StringLeaf() const;
+    const ArrayNode*  as_ArrayNode() const;
+    const ObjectNode* as_ObjectNode() const;
+
+    virtual bool    operator==(const Node& other) const = 0;
+    virtual NodePtr deep_copy() const                   = 0;
 
 protected:
     NodeKind _type;

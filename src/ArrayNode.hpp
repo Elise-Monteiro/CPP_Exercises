@@ -67,11 +67,22 @@ public:
         }
         return res;
     }
+    std::vector<NodePtr>::iterator begin() { return _array.begin(); }
+    std::vector<NodePtr>::iterator end() { return _array.end(); }
 
-    /*std::unique_ptr<IntLeaf>    as_IntLeaf() override { return nullptr; }
-    std::unique_ptr<StringLeaf> as_StringLeaf() override { return nullptr; }
-    std::unique_ptr<ArrayNode>  as_ArrayNode() override { return std::make_unique<ArrayNode>(); }
-    std::unique_ptr<ObjectNode> as_ObjectNode() override { return nullptr; }*/
+    std::vector<NodePtr>::const_iterator begin() const { return _array.begin(); }
+    std::vector<NodePtr>::const_iterator end() const { return _array.end(); }
+
+    bool    operator==(const Node& other) const override;
+    NodePtr deep_copy() const override
+    {
+        auto res = make_ptr();
+        for (auto const& element : _array)
+        {
+            res->push_back(element->deep_copy());
+        }
+        return res;
+    }
 
 private:
     std::vector<NodePtr> _array;

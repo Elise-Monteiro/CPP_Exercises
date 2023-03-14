@@ -58,13 +58,20 @@ public:
         return res;
     }
 
-    /*std::unique_ptr<IntLeaf>    as_IntLeaf() override { return nullptr; }
-    std::unique_ptr<StringLeaf> as_StringLeaf() override { return nullptr; }
-    std::unique_ptr<ArrayNode>  as_ArrayNode() override { return nullptr; }
-    std::unique_ptr<ObjectNode> as_ObjectNode() override { return std::make_unique<ObjectNode>(); }*/
+    bool  has_child(const std::string& key) const { return _map.count(key) != 0; }
+    Node* at(const std::string& key) const { return has_child(key) ? _map.at(key).get() : nullptr; }
 
-    bool    has_child(const std::string& key) const { return _map.count(key) != 0; }
-    NodePtr at(const std::string& key) { return _map.count(key) == 0 ? nullptr : std::move(_map[key]); }
+    bool operator==(const Node& other) const override;
+
+    NodePtr deep_copy() const override
+    {
+        auto res = make_ptr();
+        for (auto const& set : _map)
+        {
+            res->insert(set.first, set.second->deep_copy());
+        }
+        return res;
+    }
 
 private:
     std::map<std::string, NodePtr> _map;
