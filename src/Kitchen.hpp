@@ -1,8 +1,10 @@
 #pragma once
+#include "../lib/Consumable.hpp"
 #include "../lib/Ingredient.hpp"
 #include "../lib/Unit.hpp"
 
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -11,6 +13,7 @@
 class Kitchen
 {
 public:
+    // Version set
     const Unit& register_unit(Unit unit)
     {
         auto [it, emplaced] = _units.emplace(std::move(unit));
@@ -33,6 +36,15 @@ public:
         return it != _ingredients.end() ? &(*it) : nullptr;
     }
 
+    std::optional<const Consumable> make_random_consumable(float f, int i)
+    {
+        if (_ingredients.empty())
+        {
+            return std::nullopt;
+        }
+        return Consumable { *(_ingredients.begin()), f, i };
+    }
+    // Version vector
     /*const Unit& register_unit(const Unit& unit)
     {
         _units.emplace_back(std::make_unique<Unit>(unit));
