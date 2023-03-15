@@ -81,16 +81,41 @@ public:
 
     float compute_quantity(std::function<bool(const Consumable& c)> func) const
     {
-        float res = 0;:
-        for (const auto& e  _cupboard.consumables)
+        float res = 0;
+        for (const auto& e : _cupboard.consumables)
         {
-            if (e.expiration_time != std::nullopt && e.expiration_time.value() != 0 &&
-                e.ingredient.get() == ingredient)
+            if (func(e))
             {
                 res += e.quantity;
             }
         }
         return res;
+    }
+
+    void tidy_up()
+    {
+        for (auto it1 = _cupboard.consumables.begin(); it1 != _cupboard.consumables.end();)
+        {
+            if ((*it1).expiration_time == 0 || (*it1).quantity == 0)
+            {
+                _cupboard.consumables.erase(it1);
+            }
+            else
+            {
+                for (auto it2 = _cupboard.consumables.begin(); it2 != it1; it2++)
+                {
+                    if (equals_lexico((*it2).ingredient.get().name, (*it1).ingredient.get().name) &&
+                        (*it2).expiration_time == (*it1).expiration_time)
+                    {
+                        (*it2).quantity += (*it1).quantity;
+                        _cupboard.consumables.erase(it1);
+                        it1--;
+                        break;
+                    }
+                }
+                it1++;
+            }
+        }
     }
 
     // Version vector
@@ -104,7 +129,7 @@ public:
     {
         for (const auto& e : _units)
         {
-            if (equals_lexico(name, (*e).name))
+            if (name == (*e).name)
             {
                 return &(*e);
             }
@@ -161,10 +186,7 @@ private:
     std::set<Ingredient, ElementNameComparer> _ingredients;
     // General
     Cupboard _cupboard;
-    // Version set
-    /*std::vector<std::unique_ptr<Unit>>       _units;
-    std::vector<std::unique_ptr<Ingredient>> _ingredients;
-    bool                                     equals_lexico(const std::string& s1, const std::string& s2) const
+    bool     equals_lexico(const std::string& s1, const std::string& s2) const
     {
         if (s1.length() != s2.length())
         {
@@ -178,5 +200,9 @@ private:
             }
         }
         return true;
-    }*/
+    }
+
+    // Version set
+    /*std::vector<std::unique_ptr<Unit>>       _units;
+    std::vector<std::unique_ptr<Ingredient>> _ingredients;*/
 };
