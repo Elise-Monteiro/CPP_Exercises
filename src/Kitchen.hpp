@@ -2,6 +2,7 @@
 #include "../lib/Consumable.hpp"
 #include "../lib/Cupboard.hpp"
 #include "../lib/Ingredient.hpp"
+#include "../lib/Recipe.hpp"
 #include "../lib/Unit.hpp"
 
 #include <functional>
@@ -36,6 +37,14 @@ public:
     {
         const auto it = _ingredients.find(name);
         return it != _ingredients.end() ? &(*it) : nullptr;
+    }
+
+    void register_recipe(const Recipe& recipe) { _recipes.emplace(std::move(recipe)); }
+
+    const Recipe* find_recipe(const std::string& name) const
+    {
+        const auto it = _recipes.find(name);
+        return it != _recipes.end() ? &(*it) : nullptr;
     }
 
     // General
@@ -118,6 +127,41 @@ public:
         }
     }
 
+    std::map<const Ingredient*, float> compute_missing_quantities(const Recipe& recipe) const
+    {
+        std::map<const Ingredient*, float> map;
+        for (const auto& r : recipe.quantity_by_ingredient)
+        {
+            bool  find     = false;
+            float quantite = 0;
+            for (const auto& c : _cupboard.consumables)
+            {
+                if (equals_lexico(r.first->name, c.ingredient.get().name) &&
+                    c.expiration_time.value_or(1) != 0)
+                {
+                    quantite += c.quantity;
+                }
+            }
+            if (quantite < r.second)
+            {
+                map.emplace(r.first, r.second - quantite);
+            }
+        }
+        return map;
+    }
+    std::set<const Recipe*> compute_feasible_recipes() const
+    {
+        std::set<const Recipe*> res;
+        for (const auto& recipe : _recipes)
+        {
+            if (compute_missing_quantities(recipe).empty())
+            {
+                res.emplace(&recipe);
+            }
+        }
+        return res;
+    }
+
     // Version vector
     /*const Unit& register_unit(const Unit& unit)
     {
@@ -166,9 +210,11 @@ private:
             return std::lexicographical_compare(s1.begin(), s1.end(), s2.begin(), s2.end(),
                                                 [](char c1, char c2) { return tolower(c1) < tolower(c2); });
         }
+
         bool operator()(const Unit& u1, const Unit& u2) const { return u1.name < u2.name; }
         bool operator()(const Unit& u, const std::string& name) const { return u.name < name; }
         bool operator()(const std::string& name, const Unit& u) const { return name < u.name; }
+
         bool operator()(const Ingredient& u1, const Ingredient& u2) const
         {
             return compare_insensitive(u1.name, u2.name);
@@ -181,9 +227,14 @@ private:
         {
             return compare_insensitive(name, u.name);
         }
+
+        bool operator()(const Recipe& r1, const Recipe& r2) const { return r1.name < r2.name; }
+        bool operator()(const Recipe& r, const std::string& name) const { return r.name < name; }
+        bool operator()(const std::string& name, const Recipe& r) const { return name < r.name; }
     };
     std::set<Unit, ElementNameComparer>       _units;
     std::set<Ingredient, ElementNameComparer> _ingredients;
+    std::set<Recipe, ElementNameComparer>     _recipes;
     // General
     Cupboard _cupboard;
     bool     equals_lexico(const std::string& s1, const std::string& s2) const
