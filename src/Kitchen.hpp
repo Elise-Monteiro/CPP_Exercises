@@ -1,8 +1,10 @@
 #pragma once
 #include "../lib/Consumable.hpp"
+#include "../lib/Cupboard.hpp"
 #include "../lib/Ingredient.hpp"
 #include "../lib/Unit.hpp"
 
+#include <functional>
 #include <memory>
 #include <optional>
 #include <set>
@@ -36,7 +38,8 @@ public:
         return it != _ingredients.end() ? &(*it) : nullptr;
     }
 
-    std::optional<const Consumable> make_random_consumable(float f, int i)
+    // General
+    std::optional<const Consumable> make_random_consumable(float f, int i) const // TODO vrai random a faire
     {
         if (_ingredients.empty())
         {
@@ -44,6 +47,52 @@ public:
         }
         return Consumable { *(_ingredients.begin()), f, i };
     }
+
+    const Cupboard& get_cupboard() const { return _cupboard; }
+
+    void store_in_cupboard(const Consumable& consumable)
+    {
+        _cupboard.consumables.emplace_back(std::move(consumable));
+    }
+    void wait_time(unsigned int time)
+    {
+        for (auto& e : _cupboard.consumables)
+        {
+            if (e.expiration_time != std::nullopt)
+            {
+                e.expiration_time = e.expiration_time.value() > time ? e.expiration_time.value() - time : 0;
+            }
+        }
+    }
+
+    float compute_quantity(const Ingredient& ingredient) const // TODO acumulate a utilisé
+    {
+        float res = 0;
+        for (const auto& e : _cupboard.consumables)
+        {
+            if (e.expiration_time != std::nullopt && e.expiration_time.value() != 0 &&
+                e.ingredient.get() == ingredient)
+            {
+                res += e.quantity;
+            }
+        }
+        return res;
+    }
+
+    float compute_quantity(std::function<bool(const Consumable& c)> func) const
+    {
+        float res = 0;:
+        for (const auto& e  _cupboard.consumables)
+        {
+            if (e.expiration_time != std::nullopt && e.expiration_time.value() != 0 &&
+                e.ingredient.get() == ingredient)
+            {
+                res += e.quantity;
+            }
+        }
+        return res;
+    }
+
     // Version vector
     /*const Unit& register_unit(const Unit& unit)
     {
@@ -82,6 +131,7 @@ public:
     }*/
 
 private:
+    // Version set
     struct ElementNameComparer
     {
         using is_transparent = bool; // besoin pour pouvoir faire find(name) et non find(Unit{name})
@@ -109,6 +159,9 @@ private:
     };
     std::set<Unit, ElementNameComparer>       _units;
     std::set<Ingredient, ElementNameComparer> _ingredients;
+    // General
+    Cupboard _cupboard;
+    // Version set
     /*std::vector<std::unique_ptr<Unit>>       _units;
     std::vector<std::unique_ptr<Ingredient>> _ingredients;
     bool                                     equals_lexico(const std::string& s1, const std::string& s2) const
