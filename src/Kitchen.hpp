@@ -17,6 +17,7 @@ class Kitchen
 {
 public:
     // Version set
+    /*
     const Unit& register_unit(Unit unit)
     {
         auto [it, emplaced] = _units.emplace(std::move(unit));
@@ -45,7 +46,7 @@ public:
     {
         const auto it = _recipes.find(name);
         return it != _recipes.end() ? &(*it) : nullptr;
-    }
+    }*/
 
     // General
     std::optional<const Consumable> make_random_consumable(float f, int i) const // TODO vrai random a faire
@@ -54,7 +55,8 @@ public:
         {
             return std::nullopt;
         }
-        return Consumable { *(_ingredients.begin()), f, i };
+        // return Consumable { *(_ingredients.begin()), f, i };// version set
+        return Consumable { *(*(_ingredients.begin())), f, i }; // version vector
     }
 
     const Cupboard& get_cupboard() const { return _cupboard; }
@@ -127,7 +129,8 @@ public:
         }
     }
 
-    std::map<const Ingredient*, float> compute_missing_quantities(const Recipe& recipe) const
+    std::map<const Ingredient*, float>
+    compute_missing_quantities(const Recipe& recipe) const // TODO std::transform
     {
         std::map<const Ingredient*, float> map;
         for (const auto& r : recipe.quantity_by_ingredient)
@@ -154,16 +157,19 @@ public:
         std::set<const Recipe*> res;
         for (const auto& recipe : _recipes)
         {
-            if (compute_missing_quantities(recipe).empty())
-            {
-                res.emplace(&recipe);
-            }
+            // version set
+            /*
+            if (compute_missing_quantities(recipe).empty())//version set
+                res.emplace(&recipe);//version set
+            */
+            if (compute_missing_quantities(*recipe).empty()) // version vector
+                res.emplace(&(*recipe));                     // version vector
         }
         return res;
     }
 
     // Version vector
-    /*const Unit& register_unit(const Unit& unit)
+    const Unit& register_unit(const Unit& unit)
     {
         _units.emplace_back(std::make_unique<Unit>(unit));
         return *(_units.back());
@@ -197,10 +203,24 @@ public:
             }
         }
         return nullptr;
-    }*/
+    }
+    void register_recipe(const Recipe& recipe) { _recipes.emplace_back(std::make_unique<Recipe>(recipe)); }
+
+    const Recipe* find_recipe(const std::string& name) const
+    {
+        for (const auto& e : _recipes)
+        {
+            if (name == (*e).name)
+            {
+                return &(*e);
+            }
+        }
+        return nullptr;
+    }
 
 private:
     // Version set
+    /*
     struct ElementNameComparer
     {
         using is_transparent = bool; // besoin pour pouvoir faire find(name) et non find(Unit{name})
@@ -234,7 +254,7 @@ private:
     };
     std::set<Unit, ElementNameComparer>       _units;
     std::set<Ingredient, ElementNameComparer> _ingredients;
-    std::set<Recipe, ElementNameComparer>     _recipes;
+    std::set<Recipe, ElementNameComparer>     _recipes;*/
     // General
     Cupboard _cupboard;
     bool     equals_lexico(const std::string& s1, const std::string& s2) const
@@ -253,7 +273,8 @@ private:
         return true;
     }
 
-    // Version set
-    /*std::vector<std::unique_ptr<Unit>>       _units;
-    std::vector<std::unique_ptr<Ingredient>> _ingredients;*/
+    // Version vector
+    std::vector<std::unique_ptr<Unit>>       _units;
+    std::vector<std::unique_ptr<Ingredient>> _ingredients;
+    std::vector<std::unique_ptr<Recipe>>     _recipes;
 };
