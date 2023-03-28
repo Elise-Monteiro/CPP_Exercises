@@ -35,7 +35,6 @@ public:
     } // pour l'opération (x, y)
 
     // function = lambda donc fonction
-    /*
     Image<P, W, H>(const std::function<P(const size_t i, const size_t j)>& functor)
     {
         for (size_t j = 0; j < H; j++)
@@ -45,7 +44,7 @@ public:
                 (*this)(i, j) = functor(i, j);
             }
         }
-    }*/
+    }
 };
 
 template <typename P, size_t W, size_t H>
