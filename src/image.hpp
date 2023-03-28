@@ -20,18 +20,17 @@ public:
     Image() = default;
     Image(const P& pix)
     {
-        for (size_t i = 0; i < W; i++)
-        { // colonne
-            for (size_t j = 0; j < H; j++)
-            { // ligne
-                _image[i][j] = pix;
+        for (size_t j = 0; j < H; j++)
+        { // ligne
+            for (size_t i = 0; i < W; i++)
+            { // colonne
+                _image[j][i] = pix;
             }
         }
     }
-    /*
-        P& operator(const size_t i, const size_t j)
-        { // colonne ligne
-            return _image[i][j];
-        }
-    const P& operator(const size_t i, const size_t j) const { return _image[i][j]; }*/
+    P&       operator()(const size_t i, const size_t j) { return _image[j][i]; } // pour l'opération (x, y)
+    const P& operator()(const size_t i, const size_t j) const
+    {
+        return _image[j][i];
+    } // pour l'opération (x, y)
 };
