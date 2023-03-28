@@ -8,15 +8,15 @@
 struct RGBA
 {
 public:
-    unsigned int r, g, b, a;
+    uint8_t r, g, b, a;//unsigned char
 };
 
 struct RGB
 {
-    unsigned int r, g, b;
+    uint8_t r, g, b;
 };
 
 struct Luma
 {
-    unsigned int gray;
+    uint8_t gray;
 };
