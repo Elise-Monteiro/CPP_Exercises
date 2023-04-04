@@ -61,23 +61,23 @@ Person1 cn{celine+" "+noel};
 In each of the following case:
 
 - Q22.1 (Youssef):
-  * a. Is the content of string `youssef_bergeron_name` copied to call `Person1(const std::string& name)`?
-  * b. Is it copied to execute  `_name { name }` ?
-  * c. How many copies in total? Are some copy unnecessary ?
+  * a. Is the content of string `youssef_bergeron_name` copied to call `Person1(const std::string& name)`? //il est pas copier à l'appel
+  * b. Is it copied to execute  `_name { name }` ? //oui
+  * c. How many copies in total? Are some copy unnecessary ? //1 //non
 - Q22.2 (Clément):
-  * a. Is the content of string `clement_chomicki_name` copied to call `Person1(const std::string& name)`?
-  * b. Is it copied to execute  `_name { name }` ?
-  * c. How many copies in total? Are some copy unnecessary ?
+  * a. Is the content of string `clement_chomicki_name` copied to call `Person1(const std::string& name)`? //non
+  * b. Is it copied to execute  `_name { name }` ? //oui
+  * c. How many copies in total? Are some copy unnecessary ? //1 //oui une inutile
 - Q22.3 (Victor): 
-  * a. What is the type of the expression `"Victor Marsault"`
-  * b. Is it copied to call `Person1(const std::string& name)`?
-  * c. Is it copied to execute  `_name { name }` ?
-  * d. How many copies in total? Are some copy unnecessary ?
+  * a. What is the type of the expression `"Victor Marsault"` //char*
+  * b. Is it copied to call `Person1(const std::string& name)`? //oui
+  * c. Is it copied to execute  `_name { name }` ? //oui
+  * d. How many copies in total? Are some copy unnecessary ? //2 //oui 1 inutile
 - Q22.4 (Céline)
-  * a. What is the type of the expression `celine+" "+noel` ?
-  * b. Is its content copied to call `Person1(const std::string& name)`?
-  * c. Is it copied to execute `_name { name }` ?
-  * d. How many copies in total? Are some copy unnecessary ?
+  * a. What is the type of the expression `celine+" "+noel` ? // std::string
+  * b. Is its content copied to call `Person1(const std::string& name)`? //non
+  * c. Is it copied to execute `_name { name }` ? //oui
+  * d. How many copies in total? Are some copy unnecessary ? //1 //oui une inutile
 
 
 [Optional] What about `std::string_view` ?
@@ -111,6 +111,22 @@ Q22.5:
   * a. Which copy from which case did it prevent?
   * b. Are there unnecessary copies in some cases?
 
+//avec string_view
+std::string youssef_bergeron_name{"Youssef Bergeron"};
+Person1 yb{youssef_bergeron_name};
+//1 copie 0 inutile
+
+std::string clement_chomicki_name = "Clément Chomicki" ;
+Person1 cc{std::move(clement_chomicki_name)};
+//1 copie 1 inutile
+
+Person1 vm{"Victor Marsault"};
+//1 copie 1 inutile
+
+std::string celine = "Céline";
+std::string noel= "Noël";
+Person1 cn{celine+" "+noel};
+//1 copie 1 inutile
 
 Using the move semantics
 ------------------------
@@ -153,10 +169,10 @@ Person3 cn{celine+" "+noel};
 
 In each of the following case:
 
-- Q22.6 (Youssef): How many copies ? 
-- Q22.7 (Clément): How many copies ?
-- Q22.8 (Victor): How many copies ?
-- Q22.9 (Céline): How many copies ?
+- Q22.6 (Youssef): How many copies ? //1
+- Q22.7 (Clément): How many copies ? //0
+- Q22.8 (Victor): How many copies ? //1
+- Q22.9 (Céline): How many copies ? //0 //car std::string temporraire
 
 
 Q22.19: Can we do better?  
