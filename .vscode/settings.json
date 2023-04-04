@@ -66,6 +66,7 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "variant": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "list": "cpp"
     }
 }
